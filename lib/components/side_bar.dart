@@ -1,4 +1,6 @@
+import 'package:eco_pulse2/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
@@ -53,12 +55,16 @@ class _SideBarState extends State<SideBar> {
             },
           ),
           SizedBox(height: 10),
-          SwitchListTile.adaptive(
-            title: Text('Dark Mode'),
-            secondary: Icon(Icons.dark_mode_outlined),
-            value: false,
-            onChanged: (bool value) {
-              // Toggle dark mode
+          Consumer<ThemeProvider>(
+            builder: (ctx, provider, __) {
+              return SwitchListTile.adaptive(
+                title: Text('Dark Mode'),
+                secondary: Icon(Icons.dark_mode_outlined),
+                value: provider.getThemeValue(),
+                onChanged: (bool value) {
+                  provider.setThemeMode(mode: value);
+                },
+              );
             },
           ),
           SizedBox(height: 10),

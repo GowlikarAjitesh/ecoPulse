@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../splashScreen/splash_screen_page.dart';
+import 'providers/theme_provider.dart';
 // import './home/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => ThemeProvider())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 // Define the custom Light Theme
@@ -78,7 +85,10 @@ class MyApp extends StatelessWidget {
       theme: lightTheme, // Use the custom light theme
       darkTheme: darkTheme, // Use the custom dark theme
       themeMode:
-          ThemeMode.system, // Change to ThemeMode.system for auto switching
+          context.watch<ThemeProvider>().getThemeValue()
+              ? ThemeMode.dark
+              : ThemeMode
+                  .light, // Change to ThemeMode.system for auto switching
       debugShowCheckedModeBanner: false,
       home: const SplashScreenPage(),
     );
